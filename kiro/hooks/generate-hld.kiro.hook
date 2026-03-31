@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Generate / Update HLD",
+  "description": "Scans all specs in .kiro/specs/ and generates or updates the Master Spec (HLD) document at .kiro/master-spec/HLD.md as a high-level design aggregating all specs into a single solution-level view.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Scan all spec folders under .kiro/specs/. For each spec, read the requirements.md and design.md files. Then generate or update the file .kiro/master-spec/HLD.md as a high-level design document that aggregates all specs into a single solution-level view.\n\nThe HLD must include these sections:\n1. Solution Overview — What this project/solution does and its purpose\n2. Architecture & Components — The major components, services, or modules and how they relate\n3. Key Design Decisions — Important architectural choices and their rationale, pulled from individual spec designs\n4. Data Model Summary — Aggregated data entities and relationships across all specs\n5. Integration Points — External services, APIs, databases, and third-party dependencies\n6. Cross-Cutting Concerns — Auth, logging, error handling, observability, and other shared patterns\n7. Spec Inventory — A table listing each spec folder name, its title, status (if determinable), and a brief summary\n\nRules:\n- If .kiro/master-spec/HLD.md already exists, UPDATE it rather than replacing it wholesale — preserve any manually added context or notes.\n- Use Kiro file references like #[[file:.kiro/specs/FOLDER/design.md]] where appropriate so the HLD stays linked to source specs.\n- Keep the language at a solution/architecture level. Do not copy implementation task lists.\n- If no specs exist yet, create a skeleton HLD with placeholder sections and a note that it will be populated as specs are added."
+  }
+}
