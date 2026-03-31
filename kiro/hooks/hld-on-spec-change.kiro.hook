@@ -1,0 +1,18 @@
+{
+  "enabled": true,
+  "name": "HLD Update on Spec Change",
+  "description": "When a spec file is created, edited or deleted, checks if the changes are significant enough to warrant updating the Master Spec HLD to keep it in sync.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      ".kiro/specs/**/*.md"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A spec file was just edited. Check if the changes are significant enough to warrant updating the Master Spec HLD at .kiro/master-spec/HLD.md. If the HLD exists and the spec changes affect architecture, components, design decisions, data models, or integration points, update the relevant sections of the HLD. If the changes are minor (typos, task checkbox updates), no HLD update is needed. Briefly state what you did or why no update was needed."
+  },
+  "workspaceFolderName": "Kiro Scaffold - Master Spec",
+  "shortName": "hld-on-spec-change"
+}

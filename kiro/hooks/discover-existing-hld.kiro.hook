@@ -1,0 +1,13 @@
+{
+  "enabled": true,
+  "name": "Discover Existing HLD",
+  "description": "Searches the repo for any existing high-level design or architecture documents and migrates/links them into the master-spec HLD structure.",
+  "version": "1",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Search this repository for any existing high-level design, architecture, or solution design documents. Check these locations and patterns:\n- docs/, design/, architecture/ folders\n- Files named HLD.md, DESIGN.md, ARCHITECTURE.md, SOLUTION.md, or similar\n- README.md sections that contain architecture or design overviews\n- Any markdown files with headings like Architecture, High Level Design, System Design, Solution Overview\n\nIf you find an existing document:\n1. Read its content\n2. Create or update .kiro/master-spec/HLD.md incorporating that content, restructured into the standard HLD format (Solution Overview, Architecture and Components, Key Design Decisions, Data Model Summary, Integration Points, Cross-Cutting Concerns, Spec Inventory)\n3. Add a note at the top of the HLD indicating it was seeded from the discovered document with its original path\n4. Do NOT delete the original document\n\nIf you also find specs in .kiro/specs/, merge their information into the HLD as well.\n\nIf no existing design document is found, report that and create a skeleton HLD ready to be populated.\n\nAlso check if this is a GitHub repo and if there are any wiki pages or docs that might contain design information (check for .github/ folder, wiki references in README, etc.)."
+  }
+}

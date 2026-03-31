@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "name": "HLD Review on File Deletion",
+  "description": "When source code or infrastructure files are deleted, checks if the HLD references components that no longer exist and should be updated or marked as removed.",
+  "version": "1",
+  "when": {
+    "type": "fileDeleted",
+    "patterns": [
+      "src/**/*",
+      "lib/**/*",
+      "app/**/*",
+      "**/*.tf",
+      "**/*.cdk.ts",
+      "**/Dockerfile",
+      "**/docker-compose*.yml"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A file was just deleted from the project. Check if the Master Spec HLD at .kiro/master-spec/HLD.md references any components, services, integrations, or data models that were associated with the deleted file.\n\nProcess:\n- Read the current HLD\n- Check if any section references the deleted file path or the component it represented\n- If the HLD references something that no longer exists, update the HLD to reflect the removal — either remove the entry or mark it as deprecated/removed with a note\n- If the deleted file wasn't architecturally significant or wasn't referenced in the HLD, state that briefly and skip\n- Be careful not to remove HLD entries that might still be valid if only one file of a multi-file component was deleted"
+  }
+}

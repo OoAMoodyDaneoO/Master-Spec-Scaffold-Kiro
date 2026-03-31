@@ -21,7 +21,14 @@ It works through three Kiro hooks, a steering file, and a skeleton HLD template.
 ├── hooks/
 │   ├── generate-hld.kiro.hook          # Manual hook: generate/update HLD from all specs
 │   ├── hld-on-spec-change.kiro.hook    # Auto hook: nudges HLD update when any spec is edited
+│   ├── hld-on-code-change.kiro.hook    # Auto hook: detects architectural changes in source code
+│   ├── hld-on-new-file.kiro.hook       # Auto hook: evaluates new files for HLD relevance
+│   ├── hld-on-file-deleted.kiro.hook   # Auto hook: checks if deleted files affect the HLD
 │   └── discover-existing-hld.kiro.hook # Manual hook: find & migrate existing design docs
+├── skills/
+│   └── hld-design-capture.md           # Manual skill for guided design decision capture
+├── agents/
+│   └── hld-maintainer.md               # Sub-agent specialized in HLD maintenance and drift detection
 └── master-spec/
     └── HLD.md                          # The living HLD document (skeleton to start)
 ```
@@ -81,8 +88,18 @@ You have a repo that already contains architecture or design documentation somew
 | Hook | Trigger | What It Does |
 |------|---------|--------------|
 | **Generate / Update HLD** | Manual (you click it) | Full scan of all specs → generates or updates the HLD |
-| **HLD Update Reminder on Spec Change** | Auto (on spec file edit) | Checks if the edit is significant enough to warrant an HLD update |
+| **HLD Update on Spec Change** | Auto (on spec file edit) | Checks if the edit is significant enough to warrant an HLD update |
+| **HLD Review on Code Change** | Auto (on source code edit) | Detects new components, integrations, patterns, or infrastructure changes in code and updates the HLD if not already captured |
+| **HLD Review on New File** | Auto (on file creation) | Evaluates whether a new file represents a new architectural element |
+| **HLD Review on File Deletion** | Auto (on file deletion) | Checks if deleted files leave stale references in the HLD |
 | **Discover Existing HLD** | Manual (you click it) | Searches repo for existing design docs and migrates them |
+
+## Skills & Agents
+
+| Tool | How to Use | What It Does |
+|------|-----------|--------------|
+| **HLD Design Capture** skill | Type `#hld-design-capture` in chat | Guided workflow for analyzing code and capturing design decisions into the HLD. Includes detection patterns for components, integrations, data models, infrastructure, and cross-cutting concerns. |
+| **HLD Maintainer** agent | Invoked automatically by Kiro or via `@hld-maintainer` | Specialized sub-agent that audits the HLD against the codebase, detects architectural drift, and performs bulk HLD updates. Use for full refresh or drift analysis. |
 
 ### Triggering Manual Hooks
 

@@ -1,0 +1,22 @@
+{
+  "enabled": true,
+  "name": "HLD Review on New File",
+  "description": "When new source code or infrastructure files are created, checks if they represent new architectural components that should be added to the Master Spec HLD.",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "src/**/*",
+      "lib/**/*",
+      "app/**/*",
+      "**/*.tf",
+      "**/*.cdk.ts",
+      "**/Dockerfile",
+      "**/docker-compose*.yml"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new file was just created in the project. Determine if this file represents a new architectural component, service, integration, or infrastructure element that should be reflected in the Master Spec HLD at .kiro/master-spec/HLD.md.\n\nNew files are a stronger signal than edits — they often indicate:\n- A new service or module being introduced\n- A new data model or migration\n- A new infrastructure resource\n- A new integration adapter or client\n\nProcess:\n- Read the new file to understand what it introduces\n- Read the current HLD at .kiro/master-spec/HLD.md\n- If the new file introduces something architecturally significant not already in the HLD, update the relevant sections\n- If it's a test file, utility helper, or minor addition, state that briefly and skip the update\n- When updating, preserve all existing HLD content and add new information in the appropriate section\n- Include a reference to the source file path in your update"
+  }
+}

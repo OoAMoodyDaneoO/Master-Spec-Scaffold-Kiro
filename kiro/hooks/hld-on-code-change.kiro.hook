@@ -1,0 +1,38 @@
+{
+  "enabled": true,
+  "name": "HLD Review on Code Change",
+  "description": "When source code files are created or edited, evaluates whether the changes introduce new components, patterns, integrations, or architectural shifts that should be reflected in the Master Spec HLD.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/**/*.ts",
+      "src/**/*.tsx",
+      "src/**/*.js",
+      "src/**/*.jsx",
+      "src/**/*.py",
+      "src/**/*.java",
+      "src/**/*.go",
+      "src/**/*.rs",
+      "src/**/*.cs",
+      "lib/**/*.ts",
+      "lib/**/*.js",
+      "lib/**/*.py",
+      "app/**/*.ts",
+      "app/**/*.tsx",
+      "app/**/*.py",
+      "app/**/*.java",
+      "**/*.tf",
+      "**/*.yaml",
+      "**/*.yml",
+      "**/docker-compose*.yml",
+      "**/Dockerfile",
+      "**/*.cdk.ts",
+      "**/*.cfn.yaml"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source code or infrastructure file was just edited. Evaluate whether this change introduces anything architecturally significant that is NOT already captured in the Master Spec HLD at .kiro/master-spec/HLD.md.\n\nCheck for these signals:\n1. **New component or service** — A new module, class, service, controller, or handler that represents a distinct architectural component\n2. **New integration point** — A new external API call, database connection, message queue, third-party SDK, or webhook\n3. **New data model or entity** — A new database model, schema definition, or significant data structure\n4. **Design pattern change** — Introduction of a new pattern (e.g., event-driven, CQRS, middleware chain) not previously documented\n5. **Infrastructure change** — New cloud resources, containers, or deployment topology changes\n6. **Cross-cutting concern** — New auth mechanism, logging framework, error handling strategy, or observability setup\n\nProcess:\n- Read the current HLD at .kiro/master-spec/HLD.md\n- Compare the code change against what the HLD already documents\n- If the change IS already captured or is too minor (bug fix, refactor, formatting), state that briefly and do nothing\n- If the change introduces something new and architecturally relevant, update the appropriate HLD section(s)\n- When updating, preserve all existing content and add the new information in the right section\n- Add a note in the updated section indicating it was detected from code (e.g., 'Detected from source: path/to/file')\n\nBe conservative — only update the HLD for genuinely significant architectural changes, not every code edit."
+  }
+}
